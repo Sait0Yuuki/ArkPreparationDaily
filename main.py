@@ -52,7 +52,7 @@ def userInfo():
     remainCoin = result['data']['remainCoin']
     if(result['data']['share'] == 'true'):
         Share = True
-    logger.info("当前拥有「美味值」*%s，剩余获得「调色奶油袋」次数 *%s"%(remainCoin, rollChance))
+    logger.info("当前拥有「美味值」* %s，剩余获得「调色奶油袋」次数 * %s"%(remainCoin, rollChance))
 
 def share():
     url = "https://ak.hypergryph.com/activity/preparation/activity/share"
@@ -70,10 +70,10 @@ if __name__ == '__main__':
     userInfo()
     while rollChance:
         rollChance = rollChance-1
-        logger.info("获得「调色奶油袋」，助力收集「原料数」*10，「美味值」+%s，剩余获得次数 \*%s"%(roll(),rollChance))
+        logger.info("获得「调色奶油袋」，助力收集「原料数」* 10，「美味值」+ %s，剩余获得次数 * %s"%(roll(),rollChance))
     if Share:
         share()
-        logger.info("今日首次分享页面，助力收集「原料数」*10")
+        logger.info("今日首次分享页面，助力收集「原料数」* 10")
     userInfo()
     log = logCapturer.getvalue()
     print(log)

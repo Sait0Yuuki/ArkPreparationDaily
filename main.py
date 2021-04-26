@@ -1,8 +1,24 @@
 import requests
 import json
 import os
+import logging
+import io
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+logCapturer = io.StringIO()
+ch = logging.StreamHandler(logCapturer)
+ch.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s: %(message)s\n')
+ch.setFormatter(formatter)
+
+logger.addHandler(ch)
+
 
 COOKIES = ""
+SC_KEY = ""
 cookies = {}
 
 rollChance = 0
@@ -33,7 +49,7 @@ def userInfo():
     remainCoin = result['data']['remainCoin']
     if(result['data']['share'] == 'true'):
         Share = True
-    print("当前拥有「美味值」*%s，剩余获得「调色奶油袋」次数*%s"%(remainCoin, rollChance))
+    logger.info("当前拥有「美味值」\*%s，剩余获得「调色奶油袋」次数 \*%s"%(remainCoin, rollChance))
 
 def share():
     url = "https://ak.hypergryph.com/activity/preparation/activity/share"
@@ -44,12 +60,16 @@ def exchange():
 
 if __name__ == '__main__':
     COOKIES: str = os.environ.get('COOKIES', None)
+    SC_KEY: str = os.environ.get('SC_KEY', None)
     split_cookie()
     userInfo()
     while rollChance:
         rollChance = rollChance-1
-        print("获得「调色奶油袋」，助力收集「原料数」*10，「美味值」+%s，剩余获得次数*%s"%(roll(),rollChance))
+        logger.info("获得「调色奶油袋」，助力收集「原料数」\*10，「美味值」+%s，剩余获得次数 \*%s"%(roll(),rollChance))
     if Share:
         share()
-        print("今日首次分享页面，助力收集「原料数」*10")
+        logger.info("今日首次分享页面，助力收集「原料数」\*10")
     userInfo()
+    log = logCapturer.getvalue()
+    print(log)
+    requests.post(url='https://sctapi.ftqq.com/'+ SC_KEY +'.send?title=庆典筹备计划&desp='+log)

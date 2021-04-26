@@ -24,5 +24,6 @@ jobs:
     - name: PreparationDaily
       env:
         COOKIES: ${{ secrets.COOKIES }}
+        SC_KEY: ${{ secrets.SC_KEY }}
       run: |
         python main.py

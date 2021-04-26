@@ -3,6 +3,7 @@ import json
 import os
 import logging
 import io
+import telebot
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -19,6 +20,8 @@ logger.addHandler(ch)
 
 COOKIES = ""
 SC_KEY = ""
+TELE_TOKEN = ""
+CHAT_ID = ""
 cookies = {}
 
 rollChance = 0
@@ -61,6 +64,8 @@ def exchange():
 if __name__ == '__main__':
     COOKIES: str = os.environ.get('COOKIES', None)
     SC_KEY: str = os.environ.get('SC_KEY', None)
+    TELE_TOKEN: str = os.environ.get('TELE_TOKEN',None)
+    CHAT_ID: str = os.environ.get('CHAT_ID',None)
     split_cookie()
     userInfo()
     while rollChance:
@@ -72,4 +77,6 @@ if __name__ == '__main__':
     userInfo()
     log = logCapturer.getvalue()
     print(log)
-    requests.post(url='https://sctapi.ftqq.com/'+ SC_KEY +'.send?title=庆典筹备计划&desp='+log)
+    bot = telebot.TeleBot(TELE_TOKEN)
+    bot.send_message(CHAT_ID,log)
+    #requests.post(url='https://sctapi.ftqq.com/'+ SC_KEY +'.send?title=庆典筹备计划&desp='+log)

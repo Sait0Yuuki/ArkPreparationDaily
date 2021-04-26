@@ -25,5 +25,7 @@ jobs:
       env:
         COOKIES: ${{ secrets.COOKIES }}
         SC_KEY: ${{ secrets.SC_KEY }}
+        TELE_TOKEN: ${{ secrets.TELE_TOKEN }}
+        CHAT_ID: ${{ secrets.CHAT_ID }}
       run: |
         python main.py

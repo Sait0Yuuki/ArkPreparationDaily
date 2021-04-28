@@ -50,7 +50,7 @@ def userInfo():
     result = json.loads(response.text)
     rollChance = result['data']['rollChance']
     remainCoin = result['data']['remainCoin']
-    if(result['data']['share'] == 'true'):
+    if(result['data']['share'] == True):
         Share = True
     logger.info("当前拥有「美味值」* %s，剩余获得「调色奶油袋」次数 * %s"%(remainCoin, rollChance))
 
